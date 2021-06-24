@@ -86,6 +86,25 @@ GROUP BY Student.FirstName, Student.LastName
 GO
 
 --List all rows from view ordered by biggest Grade Count
-select * from vv_StudentGrades
-order by COUNT(Grade.Grade) desc
+SELECT * 
+FROM vv_StudentGrades
+ORDER BY TOTAL_GRADES DESC
+GO
+
+--Create new view (vv_StudentGradeDetails) that will List all Students (FirstName and LastName) and Count the courses he passed through the exam(Ispit)
+CREATE VIEW vv_StudentGradeDetails
+AS
+SELECT Student.FirstName, Student.LastName, COUNT(Grade.Grade) AS NUM_COURSES_PASSED, AchievementType.Name
+FROM Grade
+INNER JOIN Student ON Student.ID = StudentID
+INNER JOIN GradeDetails ON GradeDetails.GradeID = Grade.ID
+INNER JOIN AchievementType ON AchievementType.ID = GradeDetails.AchievementTypeID
+WHERE AchievementType.ParticipationRate < GradeDetails.AchievementPoints
+AND AchievementType.Name = 'ISPIT'
+GROUP BY Student.FirstName, Student.LastName, AchievementType.Name
+GO
+
+SELECT *
+FROM vv_StudentGradeDetails
+ORDER BY NUM_COURSES_PASSED DESC
 GO
