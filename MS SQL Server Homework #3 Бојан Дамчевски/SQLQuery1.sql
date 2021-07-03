@@ -42,7 +42,7 @@ GO
 --Calculate the count of all grades per Teacher in the system for first 100 Students (ID < 100) and filter teachers with more than 50 Grade count
 SELECT TeacherID, COUNT(Grade) AS Total_Grades, COUNT(StudentID) AS Total_Students_Per_Teacher
 FROM [dbo].[Grade]
-WHERE TeacherID > 50 AND StudentID < 100
+WHERE StudentID < 100
 GROUP BY TeacherID
 HAVING COUNT(Grade) > 50
 ORDER BY TeacherID ASC
