@@ -40,11 +40,12 @@ HAVING COUNT(Grade) > 200
 GO
 
 --Calculate the count of all grades per Teacher in the system for first 100 Students (ID < 100) and filter teachers with more than 50 Grade count
-SELECT COUNT(Grade) AS TOTAL_GRADES, TeacherID AS TEACHER_ID
-FROM Grade
+SELECT TeacherID, COUNT(Grade) AS Total_Grades, COUNT(StudentID) AS Total_Students_Per_Teacher
+FROM [dbo].[Grade]
+WHERE TeacherID > 50 AND StudentID < 100
 GROUP BY TeacherID
-HAVING COUNT(Grade.StudentID) < 100 AND COUNT(Grade) < 50
-GO
+HAVING COUNT(Grade) > 50
+ORDER BY TeacherID ASC
 
 --Find the Grade Count, Maximal Grade, and the Average Grade per Student on all grades in the system. Filter only records where Maximal Grade is equal to Average Grade
 SELECT Student.ID, COUNT(Grade) AS TOTAL_GRADES, MAX(Grade) AS MAX_GRADE, AVG(Grade) AS AVG_GRADE
